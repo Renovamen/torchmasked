@@ -5,15 +5,23 @@ import unittest
 base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(base_path)
 
+import random
 import torch
 import torch.nn.functional as F
 import numpy as np
 import torchmasked as tm
 
+def _get_input_and_mask(n: int = 3, m: int = 5):
+    input = torch.randn(n, m)
+    mask = torch.randn(n, m) > 0
+
+    for i in range(n):
+        mask[i, random.randint(0, m - 1)] = True  # avoid all 0 mask
+
+    return input, mask
 
 def _test_pipline(masked_func, torch_func):
-    input = torch.randn(3, 5)
-    mask = torch.randn(3, 5) > 0
+    input, mask = _get_input_and_mask()
 
     output = masked_func(input, mask, dim=-1)
     output = output[0] if isinstance(output, tuple) else output
@@ -28,8 +36,7 @@ def _test_pipline(masked_func, torch_func):
     np.testing.assert_allclose(result, truth, atol=1e-6)
 
 def _test_pipline_F(masked_func, torch_func):
-    input = torch.randn(3, 5)
-    mask = torch.randn(3, 5) > 0
+    input, mask = _get_input_and_mask()
 
     output = masked_func(input, mask, dim=-1)
 

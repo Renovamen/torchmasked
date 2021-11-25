@@ -2,7 +2,7 @@
 
 Tensor operations with mask for PyTorch.
 
-[![PyPI](https://img.shields.io/pypi/v/torchmasked?style=flat-square)](https://pypi.org/project/torchmasked/) [![License](https://img.shields.io/github/license/Renovamen/torchmasked?style=flat-square)](https://github.com/Renovamen/torchmasked/blob/main/LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/torchmasked)](https://pypi.org/project/torchmasked/) [![License](https://img.shields.io/github/license/Renovamen/torchmasked)](https://github.com/Renovamen/torchmasked/blob/main/LICENSE) [![Unittest](https://github.com/Renovamen/torchmasked/workflows/unittest/badge.svg?branch=main)](https://github.com/Renovamen/torchmasked/actions/workflows/unittest.yaml)
 
 Sometimes you need to perform operations on tensors with the masked elements been ignored, for example:
 
@@ -48,11 +48,11 @@ python setup.py install
 
 ## Supported Operations
 
-- max (masked version of `torch.max`)
-- min (`torch.min`)
-- sum (`torch.sum`)
-- mean (`torch.mean`)
-- softmax (`torch.nn.functional.softmax` and `torch.nn.Softmax`)
+- `torchmasked.max` (masked version of `torch.max`)
+- `torchmasked.min` (`torch.min`)
+- `torchmasked.sum` (`torch.sum`)
+- `torchmasked.mean` (`torch.mean`)
+- `torchmasked.softmax` (`torch.nn.functional.softmax`) / `torchmasked.nn.Softmax` (`torch.nn.Softmax`)
 
 
 &nbsp;
