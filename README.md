@@ -2,6 +2,8 @@
 
 Tensor operations with mask for PyTorch.
 
+[![PyPI](https://img.shields.io/pypi/v/torchmasked?style=flat-square)](https://pypi.org/project/torchmasked/) [![License](https://img.shields.io/github/license/Renovamen/torchmasked?style=flat-square)](https://github.com/Renovamen/torchmasked/blob/main/LICENSE)
+
 Sometimes you need to perform operations on tensors with the masked elements been ignored, for example:
 
 ```python
@@ -24,6 +26,12 @@ Then this package could be helpful.
 &nbsp;
 
 ## Installation
+
+From PyPI:
+
+```bash
+pip install torchmasked
+```
 
 From source:
 

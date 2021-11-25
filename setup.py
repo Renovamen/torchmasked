@@ -27,6 +27,10 @@ setup(
         "Programming Language :: Python :: 3",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
+    author = "Xiaohan Zou",
+    license = 'MIT',
+    author_email = "renovamenzxh@gmail.com",
+    url = "https://github.com/Renovamen/torchmasked",
     python_requires = ">=3.6",
     install_requires = dependencies(),
     extras_require = {
