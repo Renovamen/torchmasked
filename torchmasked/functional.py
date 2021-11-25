@@ -1,7 +1,7 @@
 import torch
 import torch.nn.functional as F
 from torch.types import _dtype as DType
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, Union, List, Tuple
 
 __all__ = [
     'masked_softmax',
@@ -28,6 +28,26 @@ def masked_softmax(
     _stacklevel: int = 3,
     dtype: Optional[DType] = None
 ) -> torch.Tensor:
+    """
+    Apply `torch.nn.functional.softmax` while some of the elements of input
+    tensor being masked.
+
+    Parameters
+    ----------
+    input : torch.Tensor
+        Input
+
+    mask : torch.Tensor
+        A 0-1 mask for the input tensor, 0 for tokens that are masked, 1
+        for tokens that are not masked. Should be broadcastable with input.
+        If None, a regular softmax result will be returned.
+
+    dim : int
+        A dimension along which softmax will be computed.
+
+    dtype : torch.dtype, optional
+        The desired data type of returned tensor.
+    """
     if mask is None:
         return F.softmax(input, dim=dim, _stacklevel=_stacklevel, dtype=dtype)
 
@@ -37,10 +57,34 @@ def masked_softmax(
 def masked_sum(
     input: torch.Tensor,
     mask: torch.Tensor,
-    dim: Optional[int] = None,
+    dim: Optional[Union[int, List[int], Tuple[int]]] = None,
     keepdim: bool = False,
     dtype: Optional[DType] = None
 ) -> torch.Tensor:
+    """
+    Apply `torch.sum` while some of the elements of input tensor being masked.
+
+    Parameters
+    ----------
+    input : torch.Tensor
+        Input
+
+    mask : torch.Tensor
+        A 0-1 mask for the input tensor, 0 for tokens that are masked, 1
+        for tokens that are not masked. Should be broadcastable with input.
+        If None, a regular sum result will be returned.
+
+    dim : int or List[int] or Tuple[int], optional
+        A dimension or list of dimensions along which sum will be computed.
+        If not specified, returns the masked sum of all elements in the input
+        tensor.
+
+    keepdim : bool, optional, default=False
+        Whether the output tensor has dim retained or not.
+
+    dtype : torch.dtype, optional
+        The desired data type of returned tensor.
+    """
     if mask is None:
         return _call_torch(input.sum, dim=dim, keepdim=keepdim, dtype=dtype)
 
@@ -50,10 +94,34 @@ def masked_sum(
 def masked_mean(
     input: torch.Tensor,
     mask: torch.Tensor,
-    dim: Optional[int] = None,
+    dim: Optional[Union[int, List[int], Tuple[int]]] = None,
     keepdim: bool = False,
     dtype: Optional[DType] = None
 ) -> torch.Tensor:
+    """
+    Apply `torch.mean` while some of the elements of input tensor being masked.
+
+    Parameters
+    ----------
+    input : torch.Tensor
+        Input
+
+    mask : torch.Tensor
+        A 0-1 mask for the input tensor, 0 for tokens that are masked, 1
+        for tokens that are not masked. Should be broadcastable with input.
+        If None, a regular mean result will be returned.
+
+    dim : int or List[int] or Tuple[int], optional
+        A dimension or list of dimensions along which mean will be computed.
+        If not specified, returns the masked mean of all elements in the input
+        tensor.
+
+    keepdim : bool, optional, default=False
+        Whether the output tensor has dim retained or not.
+
+    dtype : torch.dtype, optional
+        The desired data type of returned tensor.
+    """
     if mask is None:
         return _call_torch(input.mean, dim=dim, keepdim=keepdim, dtype=dtype)
 
@@ -68,6 +136,30 @@ def masked_max(
     dim: Optional[int] = None,
     keepdim: bool = False
 ) -> torch.Tensor:
+    """
+    Apply `torch.max` while some of the elements of input tensor being masked.
+
+    Parameters
+    ----------
+    input : torch.Tensor
+        Input
+
+    mask : torch.Tensor
+        A 0-1 mask for the input tensor, 0 for tokens that are masked, 1
+        for tokens that are not masked. Should be broadcastable with input.
+        If None, a regular max result will be returned.
+
+    dim : int, optional
+        A dimension along which max will be computed. If not specified, returns
+        the maximum value of all unmasked elements in the input tensor. If
+        specified, returns a namedtuple (values, indices) where values is the
+        maximum value of unmasked elements in each row of the input tensor in
+        the given dimension dim, and indices is the index location of each
+        maximum value found (argmax).
+
+    keepdim : bool, optional, default=False
+        Whether the output tensor has dim retained or not.
+    """
     if mask is None:
         return _call_torch(input.max, dim=dim, keepdim=keepdim)
 
@@ -80,6 +172,30 @@ def masked_min(
     dim: Optional[int] = None,
     keepdim: bool = False
 ) -> torch.Tensor:
+    """
+    Apply `torch.min` while some of the elements of input tensor being masked.
+
+    Parameters
+    ----------
+    input : torch.Tensor
+        Input
+
+    mask : torch.Tensor
+        A 0-1 mask for the input tensor, 0 for tokens that are masked, 1
+        for tokens that are not masked. Should be broadcastable with input.
+        If None, a regular min result will be returned.
+
+    dim : int, optional
+        A dimension along which min will be computed. If not specified, returns
+        the minimum value of all unmasked elements in the input tensor. If
+        specified, returns a namedtuple (values, indices) where values is the
+        minimum value of unmasked elements in each row of the input tensor in
+        the given dimension dim, and indices is the index location of each
+        minimum value found (argmin).
+
+    keepdim : bool, optional, default=False
+        Whether the output tensor has dim retained or not.
+    """
     if mask is None:
         return _call_torch(input.min, dim=dim, keepdim=keepdim)
 
